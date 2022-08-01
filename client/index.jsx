@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
+
+import { createRoot } from "react-dom/client";
 import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
 
 function FrontPage() {
@@ -97,4 +98,4 @@ function Application() {
   );
 }
 
-ReactDOM.render(<Application />, document.getElementById("app"));
+createRoot(document.getElementById("app")).render(<Application />);
