@@ -6,7 +6,7 @@ import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
 function FrontPage() {
   return (
     <div>
-      <h1>MOVIE DATABASE</h1>
+      <h1>MOVIE TESTTTT</h1>
       <ul>
         <li>
           <Link to={"/movies"}>List movies</Link>
