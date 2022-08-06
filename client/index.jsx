@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import style from "./style.css";
 
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
@@ -49,16 +50,107 @@ async function fetchJSON(url) {
   return await res.json();
 }
 
-function MovieCard({ movie: { title, plot, poster } }) {
+function MovieCard({
+  movie: { countries, directors, plot, poster, title, year },
+}) {
   return (
     <>
-      <h3>{title}</h3>
-      <img src={poster} width={150} />
-      <p>{plot}</p>
+      <div id={"bord"}>
+        <h3>
+          {" "}
+          {title} ({year})
+        </h3>
+        {directors && (
+          <div>
+            <strong>Directed by:</strong> {directors.join(", ")}
+          </div>
+        )}
+
+        <p>
+          <strong>Plot: </strong> {plot}
+        </p>
+        <p>
+          <strong> Country:</strong> {countries}
+        </p>
+      </div>
     </>
   );
 }
+async function postJSON(url, body) {
+  const res = await fetch(url, {
+    method: "post",
+    headers: {
+      "content-type": "application/json",
+    },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) {
+    throw new Error(`${res.status}: ${res.statusText}`);
+  }
+}
 
+function FormInput({ label, value, setValue }) {
+  return (
+    <div>
+      <div>
+        <label>{label}</label>
+      </div>
+      <div>
+        <input value={value} onChange={(e) => setValue(e.target.value)} />
+      </div>
+    </div>
+  );
+}
+
+function FormTextarea({ label, value, setValue }) {
+  return (
+    <div>
+      <div>
+        <label>{label}</label>
+      </div>
+      <div>
+        <textarea value={value} onChange={(e) => setValue(e.target.value)} />
+      </div>
+    </div>
+  );
+}
+function AddMovie() {
+  const [title, setTitle] = useState("");
+  const [year, setYear] = useState("");
+  const [director, setDirector] = useState("");
+  const [plot, setPlot] = useState("");
+  const [country, setCountry] = useState("");
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    await postJSON("/api/movies", {
+      title,
+      year: parseInt(year),
+      directors: [director],
+      plot: plot,
+      countries: [country],
+    });
+    setTitle("");
+    setYear("");
+    setDirector("");
+    setPlot("");
+    setCountry("");
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Add new movie</h2>
+      <FormInput label={"Title"} value={title} setValue={setTitle} />
+      <FormInput label={"Year"} value={year} setValue={setYear} />
+      <FormInput label={"Director"} value={director} setValue={setDirector} />
+      <FormInput label={"Country"} value={country} setValue={setCountry} />
+      <FormTextarea label={"Full plot"} value={plot} setValue={setPlot} />
+      <div>
+        <button disabled={title.length === 0 || year.length === 0}>Save</button>
+      </div>
+    </form>
+  );
+}
 function ListMovies() {
   const { loading, error, data } = useLoading(async () =>
     fetchJSON("/api/movies")
@@ -100,7 +192,7 @@ function Application() {
       <Routes>
         <Route path={"/"} element={<FrontPage />} />
         <Route path={"/movies"} element={<ListMovies />} />
-        <Route path={"/movies/new"} element={<AddNewMovie />} />
+        <Route path={"/movies/new"} element={<AddMovie />} />
       </Routes>
     </BrowserRouter>
   );

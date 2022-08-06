@@ -1,0 +1,5 @@
+#bord{
+    text-align: center;
+    border: 1px solid darkblue;
+    inline-size: 350px;
+}
