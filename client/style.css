@@ -1,5 +1,21 @@
-#bord{
+body{
     text-align: center;
-    border: 1px solid darkblue;
-    inline-size: 350px;
+    margin-top: 12%;
+    background-color: dimgrey;
+    color: whitesmoke;
+}
+
+a {
+    color: white;
+}
+
+#bord{
+    margin-left:34%;
+    border: 1px solid whitesmoke;
+    inline-size: 31.25rem;
+}
+
+.movies-in{
+    margin-bottom: 3rem;
+    margin-left: 1%;
 }

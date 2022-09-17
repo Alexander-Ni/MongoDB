@@ -7,15 +7,15 @@ import { BrowserRouter, Link, Route, Router, Routes } from "react-router-dom";
 function FrontPage() {
   return (
     <div>
-      <h1>MOVIE TESTTTT</h1>
-      <ul>
-        <li>
+      <h1>Movie Database</h1>
+      <div className={"links"}>
+        <p>
           <Link to={"/movies"}>List movies</Link>
-        </li>
-        <li>
+        </p>
+        <p>
           <Link to={"/movies/new"}>Add new movie</Link>
-        </li>
-      </ul>
+        </p>
+      </div>
     </div>
   );
 }
@@ -169,7 +169,7 @@ function ListMovies() {
   }
   return (
     <div>
-      <h1>Movies in the database</h1>
+      <h1 className={"movies-in"}>Movies in the database</h1>
 
       {data.map((movie) => (
         <MovieCard key={movie.title} movie={movie} />
